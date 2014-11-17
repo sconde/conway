@@ -42,18 +42,15 @@ using namespace af;
 
 void copyArrayToPBO()
 {
-    // Resize state for drawing larger pixels
-    array X = resize(state, width, height, AF_INTERP_NEAREST);
-
     // Get device pointer
-    float *d_X = X.device<float>();
+    float *d_X = state.device<float>();
 
     // Copy data to PBO
     glBufferData(GL_PIXEL_UNPACK_BUFFER_ARB, width * height * sizeof(float), d_X, GL_STREAM_COPY);
 
     // Unlock array
     // Not implemented yet
-    // X.unlock();
+    // state.unlock();
 }
 
 int main(int argc, char* argv[])

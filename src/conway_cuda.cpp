@@ -65,11 +65,8 @@ void cudaRegisterPBO()
 
 void copyArrayToPBO()
 {
-    // Resize state for drawing larger pixels
-    array X = resize(state, width, height, AF_INTERP_NEAREST);
-
     // Get device pointer
-    float *d_X = X.device<float>();
+    float *d_X = state.device<float>();
 
     // Map resource. Copy data to PBO. Unmap resource.
     size_t num_bytes;
@@ -81,7 +78,7 @@ void copyArrayToPBO()
 
     // Unlock array
     // Not implemented yet
-    // X.unlock();
+    // state.unlock();
 }
 
 void cudaCleanup()

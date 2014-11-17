@@ -17,9 +17,12 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-static const int game = 256;
-static const int width = game * 4;
-static const int height = game * 4;
+//static const int game = 256;
+//static const int width = game * 4;
+//static const int height = game * 4;
+static const int game = 1024;
+static const int width = game;
+static const int height = game;
 
 //OpenGL PBO and texture "names"
 GLuint gl_PBO, gl_Tex, gl_Shader;
