@@ -66,7 +66,14 @@ void cudaRegisterPBO()
 void copyArrayToPBO()
 {
     // Get device pointer
-    float *d_X = state.device<float>();
+    // Get device pointer
+    array X;
+    if(game_w != buff_w || game_h != buff_h) {
+        X = resize(state, buff_w, buff_h, AF_INTERP_NEAREST);
+    } else {
+        X = state;
+    }
+    float *d_X = X.device<float>();
 
     // Map resource. Copy data to PBO. Unmap resource.
     size_t num_bytes;
@@ -92,7 +99,7 @@ int main(int argc, char* argv[])
     try {
         af::info();
 
-        initGLFW(width, height, 1);
+        initGLFW(disp_w, disp_h, 1);
         initOpenGL();
         cudaRegisterPBO();
 
