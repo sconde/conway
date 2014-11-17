@@ -32,12 +32,14 @@ DEFINES +=
 
 INCLUDES +=\
 	-I$(AF_PATH)/include \
-	-I$(CUDA)/include  \
 	-I/usr/include  # callgrind
+
+CUDA_INCLUDES += \
+	-I$(CUDA)/include
 
 LIBRARIES +=\
 	-L$(GLFW_LIB_PATH) -lglfw \
-	-lGL -lGLEW -lGLU \
+	-lGL -lGLEW -lGLU
 
 CUDA_LIBS +=\
 	-L$(AF_PATH)/lib -lafcuda \
@@ -72,7 +74,7 @@ $(OUT)_cpu: $(CPU_SOURCE_FILES) Makefile
 	$(CXX) $(CXXFLAGS) $(DEFINES) $(INCLUDES) $(CPU_LIBS) $(LIBRARIES) $(CPU_SOURCE_FILES) -o $@
 
 $(OUT)_cuda: $(CUDA_SOURCE_FILES) Makefile
-	$(NVCC) $(NVCCFLAGS) $(DEFINES) $(INCLUDES) $(CUDA_LIBS) $(LIBRARIES) $(CUDA_SOURCE_FILES) -o $@
+	$(NVCC) $(NVCCFLAGS) $(DEFINES) $(INCLUDES) $(CUDA_INCLUDES) $(CUDA_LIBS) $(LIBRARIES) $(CUDA_SOURCE_FILES) -o $@
 
 debug: set_debug $(OUT)
 
