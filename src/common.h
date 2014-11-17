@@ -17,7 +17,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-static const int game = 250;
+static const int game = 256;
 static const int width = game * 4;
 static const int height = game * 4;
 
