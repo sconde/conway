@@ -17,9 +17,12 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-static const int game = 256;
-static const int width = game * 4;
-static const int height = game * 4;
+static const int game_w = 256;
+static const int game_h = 256;
+static const int buff_w = game_w;
+static const int buff_h = game_h;
+static const int disp_w = game_w * 4;
+static const int disp_h = game_h * 4;
 
 //OpenGL PBO and texture "names"
 GLuint gl_PBO, gl_Tex, gl_Shader;
@@ -128,13 +131,13 @@ void initOpenGL()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_FLOAT, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, buff_w, buff_h, 0, GL_RED, GL_FLOAT, NULL);
     printf("Texture created.\n");
 
     printf("Creating PBO...\n");
     glGenBuffers(1, &gl_PBO);
     glBindBuffer(GL_PIXEL_UNPACK_BUFFER_ARB, gl_PBO);
-    glBufferData(GL_PIXEL_UNPACK_BUFFER_ARB, width * height * sizeof(float), NULL, GL_STREAM_COPY);
+    glBufferData(GL_PIXEL_UNPACK_BUFFER_ARB, buff_w * buff_h * sizeof(float), NULL, GL_STREAM_COPY);
 
     printf("PBO created.\n");
 
@@ -150,7 +153,7 @@ void update(const int frame_count)
 
     // Generate a random starting state
     if(frame_count % reset == 0)
-        state = (af::randu(game, game, f32) > 0.33).as(f32);
+        state = (af::randu(game_w, game_h, f32) > 0.33).as(f32);
 
     // Convolve gets neighbors
     af::array nHood = convolve(state, kernel, false);
@@ -171,7 +174,7 @@ void draw()
 {
     // load texture from PBO
     glBindTexture(GL_TEXTURE_2D, gl_Tex);
-    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RED, GL_FLOAT, 0);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, buff_w, buff_h, GL_RED, GL_FLOAT, 0);
 
     // fragment program is required to display floating point texture
     glBindProgramARB(GL_FRAGMENT_PROGRAM_ARB, gl_Shader);
