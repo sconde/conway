@@ -9,7 +9,7 @@
 # Paths
 AF_PATH?=/workspace/af_package
 CUDA?=/usr/local/cuda
-GLFW_LIB_PATH?=/usr/local/lib
+GLFW_LIB_PATH=./glfw/lib
 
 #======Choose================
 # Linux compile
@@ -32,6 +32,7 @@ DEFINES +=
 
 INCLUDES +=\
 	-I$(AF_PATH)/include \
+	-Iglfw/include \
 	-I/usr/include  # callgrind
 
 CUDA_INCLUDES += \
@@ -53,11 +54,7 @@ CPU_LIBS +=\
 NVCC=$(CUDA)/bin/nvcc
 CUDA_OPTIMISE=-O3
 NVCCFLAGS += -ccbin $(CXX) $(ARCH_FLAGS) $(CUDA_DEBUG) $(CUDA_OPTIMISE)\
-	-gencode=arch=compute_20,code=sm_20 \
-	-gencode=arch=compute_30,code=sm_30 \
-	-gencode=arch=compute_35,code=sm_35 \
-	--ptxas-options=-v --machine 64 \
-	-Xcompiler -fPIC
+	-gencode=arch=compute_32,code=sm_32 \
 
 # Files which require compiling
 CPU_SOURCE_FILES=\
